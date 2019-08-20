@@ -1,0 +1,9 @@
+node_modules
+dist
+package-lock.json
+.umi
+.umi-production
+*.sw*
+*.un~
+config.local.js
+yarn.lock
