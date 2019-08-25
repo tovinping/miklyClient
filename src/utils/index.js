@@ -9,3 +9,28 @@ export function urlToList(url) {
     return `/${urllist.slice(0, index + 1).join('/')}`;
   });
 }
+// {name: 'tvp', age: '3'} To ?name=tvp&age=3
+export function paramsToString(obj) {
+  if (!obj || typeof obj !== 'object') return ''
+  const arr = Object.keys(obj)
+  let string = '?'
+  arr.forEach(key => {
+    string += `${key}=${obj[key]}&`
+  })
+  return string.slice(0, -1)
+}
+// 检查antd表单是否为数字 
+export function validNum(number,msg) {
+  try {
+    parseInt(number, 10)
+    return {
+      validateStatus: 'success',
+      errorMsg: null
+    };
+  } catch (error) {
+    return {
+      validateStatus: 'error',
+      errorMsg: msg || '必需输入数字'
+    };
+  }
+}

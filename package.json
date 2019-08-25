@@ -3,8 +3,8 @@
     "start": "umi dev"
   },
   "dependencies": {
-    "ant-design-pro": "^2.3.2",
-    "umi": "^2.8.18",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "umi-plugin-react": "^1.9.17"
   }
 }

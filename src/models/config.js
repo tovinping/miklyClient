@@ -34,32 +34,6 @@ export default {
         emptyText: '你已经完成所有待办',
         emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg'
       }
-    },    
-    login: true,
-  },
-  reducers: {
-    clearNotifyCount(state) {
-      return {
-        ...state,
-        user: {...state.user, notifyCount: 0},
-      };
-    },
-    signin(state) {
-      return {
-        ...state,
-        login: true,
-      };
-    },
-  },
-  effects: {
-    *login(action, { call, put }) {
-      yield put({
-        type: 'signin',
-      });
-      yield put(routerRedux.push('/admin'));
-    },
-    *throwError() {
-      throw new Error('hi error');
-    },
-  },
+    }
+  }
 };
