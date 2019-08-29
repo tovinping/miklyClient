@@ -1,3 +1,4 @@
+import {message} from 'antd'
 import {products, addproduct, updateproduct, deleteproduct} from '../api/product'
 export default {
   namespace: 'product',
@@ -6,11 +7,15 @@ export default {
   },
   effects: {
     *getData({action}, { call, put }) {
-      const data = yield call(products, action);
-      yield put({type: 'setData', data});
+      const result = yield call(products, action);
+      yield put({type: 'setData', result});
     },
     *addData({action}, {call, put}) {
       const data = yield call(addproduct, action)
+      if (!data.code) {
+        message.error('添加商品失败啊')
+        return;
+      }
       yield put({type: 'getData'})
     },
     *updateData({action}, {call, put}) {
@@ -23,7 +28,8 @@ export default {
     }
   },
   reducers: {
-    setData(state, {data}) {
+    setData(state, {result}) {
+      const {data} = result
       const arr = data.map(item => ({...item, key: item.id}))
       return {
         ...state,

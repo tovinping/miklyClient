@@ -6,8 +6,8 @@ export default {
   },
   effects: {
     *getData({action}, { call, put }) {
-      const data = yield call(categorys, action);
-      yield put({type: 'setData', data});
+      const result = yield call(categorys, action);
+      yield put({type: 'setData', result});
     },
     *addData({action}, {call, put}) {
       const data = yield call(addcategory, action)
@@ -23,7 +23,8 @@ export default {
     }
   },
   reducers: {
-    setData(state, {data}) {
+    setData(state, {result}) {
+      const {data} = result
       const arr = data.map(item => ({...item, key: item.id}))
       return {
         ...state,

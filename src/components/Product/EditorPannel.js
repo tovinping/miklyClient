@@ -1,3 +1,4 @@
+import React, {useState, useRef} from 'react'
 import {
   Form,
   Input,
@@ -5,7 +6,7 @@ import {
   Radio,
   Button
 } from 'antd';
-import {validNum} from '../../utils'
+import EditorImgs from '../Common/EditorImgs'
 const formItemLayout = {
   labelCol: {
     xs: { span: 3 },
@@ -17,7 +18,8 @@ const formItemLayout = {
   },
 };
 const ProductForm = ({form, type, addData, updateData, defaultData}) => {
-
+  const [imgs, setImgs] = useState([])
+  const myRef = useRef(null)
   function handleSubmit() {
     form.validateFieldsAndScroll((err, values) => {
       if (err) return
@@ -28,7 +30,16 @@ const ProductForm = ({form, type, addData, updateData, defaultData}) => {
       }
     });
   };
-
+  function uploaded(data) {
+    setImgs(data)
+  }
+  function validImgs() {
+    if(imgs.length) {
+      return JSON.stringify(imgs)
+    } else {
+      return undefined;
+    }
+  };
   const { getFieldDecorator } = form;
 
   return (
@@ -98,6 +109,18 @@ const ProductForm = ({form, type, addData, updateData, defaultData}) => {
             },
           ],
         })(<InputNumber min={1} max={10} />)}
+      </Form.Item>
+      <Form.Item label="图片">
+        {getFieldDecorator('photos', {
+          valuePropName: 'filesList',
+          normalize: validImgs,
+          rules: [
+            {
+              required: true,
+              message: '这个图片校验我也是醉了'
+            }
+          ]
+        })(<EditorImgs imgList={imgs} ref={myRef} uploaded={uploaded} />)}
       </Form.Item>
       <Form.Item >
         <Button type="primary" htmlType="submit">

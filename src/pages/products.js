@@ -9,7 +9,7 @@ const typeMap = {
   3: '大'
 }
 const Products = ({dispatch, data}) => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
   const [type, setType] = useState('add')
   const [item, setItem] = useState(null)
   useEffect(() => {
