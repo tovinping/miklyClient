@@ -1,13 +1,13 @@
 import {get, post} from '../utils/fetch'
-export function categorys(params) {
-  return get('/categorys', params)
+export function getCategory(params) {
+  return post('/getCategory', params)
 }
-export function addcategory(params) {
-  return post('/addcategory', params)
+export function addCategory(params) {
+  return post('/addCategory', params)
 }
-export function updatecategory(params) {
-  return post('/updatecategory', params)
+export function updateCategory(params) {
+  return post('/updateCategory', params)
 }
-export function deletecategory(params) {
-  return get('/deletecategory', params)
+export function deleteCategory(params) {
+  return post('/deleteCategory', params)
 }

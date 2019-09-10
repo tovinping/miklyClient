@@ -5,8 +5,7 @@ import EditorPannel from '../components/Category/EditorPannel'
 const {confirm} = Modal
 const Category = ({dispatch, data}) => {
   const [visible, setVisible] = useState(false)
-  const [type, setType] = useState('add')
-  const [item, setItem] = useState(null)
+  const [selectData, setSelectData] = useState({})
   useEffect(() => {
     dispatch({type: 'category/getData'})
   }, [])
@@ -15,10 +14,9 @@ const Category = ({dispatch, data}) => {
     dispatch({type: 'category/addData', action: params})
   }
   function updateData(params) {
-    const action = {...item, ...params}
-    console.log(action)
+    const action = {...selectData, ...params}
     setVisible(false)
-    setItem(null)
+    setSelectData({})
     dispatch({type: 'category/updateData', action})
   }
   function deleteData(params) {
@@ -38,8 +36,7 @@ const Category = ({dispatch, data}) => {
   }
   function handleUpdate(item) {
     setVisible(true)
-    setType('update')
-    setItem(item)
+    setSelectData(item)
   }
   const columns = [
     {
@@ -59,9 +56,9 @@ const Category = ({dispatch, data}) => {
   ]
   return <>
     <Table size={'small'} dataSource={data} columns={columns} pagination={false}/>
-    <Button style={{marginTop: '10px'}} onClick={() => {setType('add');setVisible(true)}}>添加分类</Button>
+    <Button style={{marginTop: '10px'}} onClick={() => {setVisible(true)}}>添加分类</Button>
     <Modal visible={visible} footer={null} onCancel={()=>setVisible(false)}>
-      <EditorPannel type={type} addData={addData} updateData={updateData} />
+      <EditorPannel defaultData={selectData} addData={addData} updateData={updateData} />
     </Modal>
   </>
 }

@@ -1,31 +1,38 @@
+import {menuData} from '../config'
 export default {
   namespace: 'global',
   state: {
-    login: true,
+    login: false,
+    user: {},
+    menuData: []
   },
   reducers: {
-    setText(state) {
-      return {
-        ...state,
-        text: 'setted dva',
-      };
-    },
-    signin(state) {
+    setLogin(state, {data}) {
       return {
         ...state,
         login: true,
+        user: data,
+        menuData
       };
     },
   },
   effects: {
-    *login(action, { call, put }) {
-      yield put({
-        type: 'signin',
-      });
-      yield put(routerRedux.push('/admin'));
-    },
-    *throwError() {
-      throw new Error('hi error');
+    *checkLogin(_, {put}) {
+      try {
+        const userInfo = JSON.parse(localStorage.getItem('loginfo'))
+        yield put({type: 'setLogin', userInfo})
+      } catch (error) {
+        console.log(error)
+        console.log('没有获取到登陆信息')
+      }
+    }
+  },
+  subscriptions: {
+    history({history, dispatch}) {
+      dispatch({type: 'checkLogin'})
+      // history.listen(({pathname}) => {
+      //   dispatch({type: 'auth', action: {history, pathname}})
+      // })
     },
   },
 };

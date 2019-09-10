@@ -7,20 +7,6 @@ export default {
       userid: '00000001',
       notifyCount: 3,
     },
-    menuData: [
-      {
-        name: '商品管理',
-        path: '/products'
-      },
-      {
-        name: '分类管理',
-        path: '/categorys'
-      },
-      {
-        name: '用户管理',
-        path: '/users'
-      }
-    ],
     noticeData: {
       'info': {
         data: [],

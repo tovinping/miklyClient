@@ -1,12 +1,15 @@
-import React, {useState, useRef} from 'react'
+import React, {useState} from 'react'
 import {
   Form,
   Input,
   InputNumber,
   Radio,
-  Button
+  Button,
+  Select
 } from 'antd';
 import EditorImgs from '../Common/EditorImgs'
+
+const {Option} = Select
 const formItemLayout = {
   labelCol: {
     xs: { span: 3 },
@@ -17,21 +20,25 @@ const formItemLayout = {
     sm: { span: 18 },
   },
 };
-const ProductForm = ({form, type, addData, updateData, defaultData}) => {
-  const [imgs, setImgs] = useState([])
-  const myRef = useRef(null)
+
+const MilkyTeaForm = ({form, defaultData, categorys, addSubmit, updateSubmit, }) => {
+  const defaultImgs = defaultData.photos ? JSON.parse(defaultData.photos) : []
+  const [imgs, setImgs] = useState(defaultImgs)
   function handleSubmit() {
     form.validateFieldsAndScroll((err, values) => {
       if (err) return
-      if (type === 'add') {
-        addData(values)
+      if (!defaultData.name) {
+        addSubmit(values)
       } else {
-        updateData(values)
+        updateSubmit(values)
       }
     });
   };
   function uploaded(data) {
     setImgs(data)
+    form.setFieldsValue({
+      photos: data
+    })
   }
   function validImgs() {
     if(imgs.length) {
@@ -41,47 +48,45 @@ const ProductForm = ({form, type, addData, updateData, defaultData}) => {
     }
   };
   const { getFieldDecorator } = form;
-
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit}>
       <Form.Item label="名称">
         {getFieldDecorator('name', {
+          initialValue: defaultData.name,
           rules: [
             {
               required: true,
-              message: '不能为空',
+              message: '名称不能为空',
             },
           ],
-        })(<Input />)}
-      </Form.Item>
-      <Form.Item label="类型">
-        {getFieldDecorator('type', {
-          rules: [
-            {
-              required: true,
-              message: '不能为空',
-            },
-          ],
-        })(
-          <Radio.Group>
-            <Radio value="1">小</Radio>
-            <Radio value="2">中</Radio>
-            <Radio value="3">大</Radio>
-          </Radio.Group>
-        )}
+        })(<Input autoComplete="off" />)}
       </Form.Item>
       <Form.Item label="简介">
-        {getFieldDecorator('des', {
+        {getFieldDecorator('description', {
+          initialValue: defaultData.description,
           rules: [
             {
               required: true,
-              message: '不能为空',
+              message: '简介不能为空',
             },
           ],
-        })(<Input />)}
+        })(<Input autoComplete="off"/>)}
       </Form.Item>
+      <Form.Item label="分类">
+          {getFieldDecorator('categoryId', {
+            initialValue: defaultData.categoryId,
+            rules: [{ required: true, message: '分类必填' }],
+          })(
+            <Select
+              placeholder="请选择分类..."
+            >
+              {categorys.map(cate => <Option key={cate.id} value={cate.id}>{cate.name}</Option>)}
+            </Select>,
+          )}
+        </Form.Item>
       <Form.Item label="原价">
         {getFieldDecorator('price', {
+          initialValue: defaultData.price,
           rules: [
             {
               required: true,
@@ -92,6 +97,7 @@ const ProductForm = ({form, type, addData, updateData, defaultData}) => {
       </Form.Item>
       <Form.Item label="现价">
         {getFieldDecorator('sales', {
+          initialValue: defaultData.sales,
           rules: [
             {
               required: true,
@@ -102,6 +108,7 @@ const ProductForm = ({form, type, addData, updateData, defaultData}) => {
       </Form.Item>
       <Form.Item label="库存">
         {getFieldDecorator('inventory', {
+          initialValue: defaultData.inventory,
           rules: [
             {
               required: true,
@@ -109,6 +116,23 @@ const ProductForm = ({form, type, addData, updateData, defaultData}) => {
             },
           ],
         })(<InputNumber min={1} max={10} />)}
+      </Form.Item>
+      <Form.Item label="大小">
+        {getFieldDecorator('size', {
+          initialValue: defaultData.size,
+          rules: [
+            {
+              required: true,
+              message: '不能为空',
+            },
+          ],
+        })(
+          <Radio.Group>
+            <Radio value={1}>小</Radio>
+            <Radio value={2}>中</Radio>
+            <Radio value={3}>大</Radio>
+          </Radio.Group>
+        )}
       </Form.Item>
       <Form.Item label="图片">
         {getFieldDecorator('photos', {
@@ -120,15 +144,15 @@ const ProductForm = ({form, type, addData, updateData, defaultData}) => {
               message: '这个图片校验我也是醉了'
             }
           ]
-        })(<EditorImgs imgList={imgs} ref={myRef} uploaded={uploaded} />)}
+        })(<EditorImgs imgList={imgs} uploaded={uploaded} />)}
       </Form.Item>
       <Form.Item >
         <Button type="primary" htmlType="submit">
-          提交
+          {defaultData.name? '修改': '添加'}
         </Button>
       </Form.Item>
     </Form>
   );
 }
 
-export default Form.create({ name: 'editor' })(ProductForm);
+export default Form.create({ name: 'editor' })(MilkyTeaForm);

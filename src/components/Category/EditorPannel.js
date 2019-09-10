@@ -4,16 +4,12 @@ import {
   Button
 } from 'antd';
 
-const CategoryForm = ({form, type, addData, updateData}) => {
+const CategoryForm = ({form, defaultData={}, addData, updateData}) => {
 
   function handleSubmit() {
     form.validateFieldsAndScroll((err, values) => {
       if (err) return
-      if (type === 'add') {
-        addData(values)
-      } else {
-        updateData(values)
-      }
+      defaultData.name ? updateData(values) : addData(values)
     });
   };
 
@@ -21,19 +17,20 @@ const CategoryForm = ({form, type, addData, updateData}) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Item label="名称">
+      <Form.Item label="分类名称">
         {getFieldDecorator('name', {
+          initialValue: defaultData.name,
           rules: [
             {
               required: true,
-              message: '老铁,你要什么药品?',
+              message: '老铁,你要什么药品啊?',
             },
           ],
-        })(<Input />)}
+        })(<Input placeholder={'请输入名称'} />)}
       </Form.Item>
       <Form.Item >
         <Button type="primary" htmlType="submit">
-          提交
+          {defaultData.name ? '修改': '添加'}
         </Button>
       </Form.Item>
     </Form>

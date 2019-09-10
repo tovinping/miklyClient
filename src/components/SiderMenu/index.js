@@ -37,9 +37,9 @@ function SiderMenu ({menuData, pathname}) {
   );
 }
 
-export default connect(({config, router}) => {
+export default connect(({global, router}) => {
   return {
-    menuData: config.menuData,
+    menuData: global.menuData,
     pathname: router.location.pathname
   }
 })(SiderMenu)

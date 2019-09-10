@@ -1,29 +1,27 @@
-import {getCategory, addCategory, updateCategory, deleteCategory} from '../api/category'
+import {getMilkyTea, addMilkyTea, updateMilkyTea, deleteMilkyTea} from '../api/milkyTea'
 export default {
-  namespace: 'category',
+  namespace: 'milkyTea',
   state: {
-    data: [],
-    status: 0 // 0,1,2 加载中,成功,失败
+    data: []
   },
   effects: {
     *getData({action}, { call, put }) {
-      const res = yield call(getCategory, action);
+      const res = yield call(getMilkyTea, action);
       yield put({type: 'setData', res});
     },
     *addData({action}, {call, put}) {
-      console.log(action)
-      const res = yield call(addCategory, action)
-      if (!res) return
+      const res = yield call(addMilkyTea, action)
+      if (!res) return;
       yield put({type: 'getData'})
     },
     *updateData({action}, {call, put}) {
-      const res = yield call(updateCategory, action)
-      if (!res) return
+      const res = yield call(updateMilkyTea, action)
+      if (!res) return;
       yield put({type: 'getData'})
     },
     *deleteData({action}, {call, put}) {
-      const res = yield call(deleteCategory, action)
-      if (!res) return
+      const res = yield call(deleteMilkyTea, action)
+      if (!res) return;
       yield put({type: 'getData'})
     }
   },

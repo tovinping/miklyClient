@@ -34,3 +34,8 @@ export function validNum(number,msg) {
     };
   }
 }
+// 获取分类名称
+export function getCategoryName(categorys, id) {
+  const result = categorys.filter(item => item.id === id)
+  return result[0] && result[0].name
+}
