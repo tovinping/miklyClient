@@ -57,7 +57,7 @@ const Category = ({dispatch, data}) => {
   return <>
     <Table size={'small'} dataSource={data} columns={columns} pagination={false}/>
     <Button style={{marginTop: '10px'}} onClick={() => {setVisible(true)}}>添加分类</Button>
-    <Modal visible={visible} footer={null} onCancel={()=>setVisible(false)}>
+    <Modal visible={visible} maskClosable={false} footer={null} onCancel={()=>setVisible(false)}>
       <EditorPannel defaultData={selectData} addData={addData} updateData={updateData} />
     </Modal>
   </>

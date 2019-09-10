@@ -110,7 +110,7 @@ const Products = ({dispatch, data, categorys}) => {
   return <>
     <Table size={'small'} dataSource={data} columns={columns} pagination={false}/>
     <Button style={{marginTop: '10px'}} onClick={() => {setVisible(true)}}>添加商品</Button>
-    <Modal visible={visible} destroyOnClose={true} footer={null} onCancel={()=>setVisible(false)}>
+    <Modal visible={visible} maskClosable={false} destroyOnClose={true} footer={null} onCancel={()=>setVisible(false)}>
       <EditorPannel defaultData={selectData} categorys={categorys} addSubmit={addData} updateSubmit={updateData} />
     </Modal>
   </>

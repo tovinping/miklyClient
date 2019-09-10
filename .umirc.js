@@ -1,5 +1,5 @@
 export default {
-  history: 'hash',
+  history: 'browser',
   plugins: [
     ['umi-plugin-react', {
       antd: true,

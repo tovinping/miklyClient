@@ -1,4 +1,3 @@
-import {useEffect} from 'react'
 import { Layout } from 'antd';
 import { connect } from 'dva';
 import SiderMenu from "../components/SiderMenu/index"
@@ -6,9 +5,9 @@ import GlobalHeader from "../components/GlobalHeader";
 
 const { Content, Header } = Layout;
 
-function BasicLayout ({dispatch, login, history, children}) {
-  if (!login && history.location.pathname !== '/login') {
-    history.replace('/login')
+function BasicLayout ({dispatch, login, children, location,...other}) {
+  if (!login && location.pathname !== '/login') {
+    dispatch({type: 'global/checkLogin'})
     return null;
   }
   return (
@@ -19,7 +18,6 @@ function BasicLayout ({dispatch, login, history, children}) {
           <GlobalHeader />
         </Header>
         {
-          
           <Content style={{ margin: '24px 24px 0', height: '100%' }}>
           { children }
           </Content>

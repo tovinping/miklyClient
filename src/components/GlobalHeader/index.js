@@ -1,17 +1,24 @@
+import router from 'umi/router';
 import {connect} from 'dva';
 import { Menu, Icon, Dropdown, Avatar} from 'antd';
 import NoticeIcon from '../NoticeIcon';
 import styles from './index.less';
 
-function GlobalHeader ({dispatch, user, fetchingNotices, onNoticeClear}) {
+function GlobalHeader ({dispatch, user, notify, fetchingNotices, onNoticeClear}) {
   function onNoticeVisibleChange (type) {
     if (!type) return
     dispatch({
       type: 'config/clearNotifyCount'
     })
   }
-  function onMenuClick (type) {
-    console.log(type)
+  function onMenuClick ({key}) {
+    if (key === 'logout') {
+      localStorage.removeItem('loginfo')
+      dispatch({type: 'global/setLogout'})
+      router.push('/login')
+    } else {
+      console.log('修改密码')
+    }
   }
   const menu = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
@@ -28,7 +35,7 @@ function GlobalHeader ({dispatch, user, fetchingNotices, onNoticeClear}) {
       <div className={styles.right}>
         <NoticeIcon
           className={styles.action}
-          count={user.notifyCount}
+          count={notify.length}
           onClear={onNoticeClear}
           onPopupVisibleChange={onNoticeVisibleChange}
           loading={fetchingNotices}
@@ -44,8 +51,9 @@ function GlobalHeader ({dispatch, user, fetchingNotices, onNoticeClear}) {
   );
 }
 
-export default connect((state) => {
+export default connect(({global}) => {
   return {
-    user: state.config.user
+    user: global.user,
+    notify: global.notify
   }
 })(GlobalHeader)
