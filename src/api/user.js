@@ -6,3 +6,6 @@ export function login(params) {
 export function getVerCode(params) {
   return post('/getVerCode', params)
 }
+export function addUser(params) {
+  return post('/addUser', params)
+}

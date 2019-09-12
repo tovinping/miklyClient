@@ -12,10 +12,10 @@ export default {
     *checkLogin(_, {put}) {
       try {
         const userInfo = JSON.parse(localStorage.getItem('loginfo'))
-        if (!userInfo) {
-          router.replace('/login')
-        } else {
+        if (userInfo) {
           yield put({type: 'setLogin', data: userInfo})
+        } else {
+          router.push('/login')
         }
       } catch (error) {
         console.log(error)
@@ -37,13 +37,11 @@ export default {
     }
   },
   subscriptions: {
-    // history({history, dispatch}) {
-    //   history.listen(({pathname}) => {
-    //     console.log(pathname)
-    //     if (pathname !== '/login') {
-    //       dispatch({type: 'checkLogin'})
-    //     }
-    //   })
-    // },
+    history({history, dispatch}) {
+      // listen回调函数会执行三次，那还玩个毛啊
+      // history.listen(({pathname}) => {
+      //   console.log(pathname)
+      // })
+    },
   },
 };

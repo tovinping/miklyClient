@@ -5,14 +5,19 @@ export const domain = {
 export const menuData = [
   {
     name: '商品管理',
-    path: '/milkyTea'
+    path: '/milkyTea',
+    auth: true
   },
   {
     name: '分类管理',
-    path: '/categorys'
+    path: '/categorys',
+    auth: true
   },
   {
     name: '用户管理',
-    path: '/users'
+    path: '/user',
+    auth: true
   }
 ]
+
+export const authWhiteList = ['/login', '/register', '/forgot']

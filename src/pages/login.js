@@ -1,6 +1,6 @@
 import Link from 'umi/link';
 import React, {useRef, useEffect} from 'react'
-import {Input, Icon, Form, Button} from 'antd'
+import {Input, Icon, Form, Button, Checkbox} from 'antd'
 import { connect } from 'dva'
 const md5 = require('crypto-js/md5')
 // 验证码id使服务器知道是要和哪个验证码进行对比,这里只是简单的使用了一个随机数~~
@@ -18,10 +18,10 @@ const Login = ({dispatch, verCodeImg, login}) => {
     dispatch({type: 'user/getVerCode', action: {verCodeId}})
   },[])
   function handleLogin() {
-    const account = accountRef.current.input.value
+    const mail = accountRef.current.input.value
     const password = md5(passwordRef.current.input.value).toString()
     const verCode = verCodeRef.current.input.value.toLowerCase()
-    dispatch({type: 'user/login', action: {account, password, verCodeId, verCode}})
+    dispatch({type: 'user/login', action: {mail, password, verCodeId, verCode}})
   }
   return (
     <Form style={{width: '300px', margin: '10% auto 0'}}>
@@ -29,7 +29,7 @@ const Login = ({dispatch, verCodeImg, login}) => {
         <Input
           ref={accountRef}
           prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-          placeholder="Username"
+          placeholder="E-mail"
         />
       </Form.Item>
       <Form.Item>
@@ -43,9 +43,9 @@ const Login = ({dispatch, verCodeImg, login}) => {
       <Form.Item>
         <div style={{display: 'flex'}}>
           <Input
-            style={{maxWidth: '60%'}}
+            style={{maxWidth: '60%',  marginRight: '5px'}}
             ref={verCodeRef}
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)'}} />}
             placeholder="verCode"
           />
           <span 
@@ -59,6 +59,10 @@ const Login = ({dispatch, verCodeImg, login}) => {
         <Button type="primary" block onClick={handleLogin}>
           Log in
         </Button>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <Link to='/register'>register now!</Link>
+          <Link to='/forgot'>Forgot password</Link>
+        </div>
       </Form.Item>
     </Form>
   )
