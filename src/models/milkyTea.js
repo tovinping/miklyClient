@@ -2,11 +2,13 @@ import {getMilkyTea, addMilkyTea, updateMilkyTea, deleteMilkyTea} from '../api/m
 export default {
   namespace: 'milkyTea',
   state: {
-    data: []
+    data: [],
+    count: 0
   },
   effects: {
     *getData({action}, { call, put }) {
       const res = yield call(getMilkyTea, action);
+      if (!res) return;
       yield put({type: 'setData', res});
     },
     *addData({action}, {call, put}) {
@@ -27,12 +29,11 @@ export default {
   },
   reducers: {
     setData(state, {res}) {
-      if (!res) {
-        return {...state}
-      }
-      const arr = res.data.map(item => ({...item, key: item.id}))
+      const {rows, count} = res.data
+      const arr = rows.map(item => ({...item, key: item.id}))
       return {
         ...state,
+        count,
         data: arr,
       };
     },

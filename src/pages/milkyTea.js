@@ -9,11 +9,11 @@ const typeMap = {
   2: '中',
   3: '大'
 }
-const Products = ({dispatch, data, categorys}) => {
+const Products = ({dispatch, data, total, categorys}) => {
   const [visible, setVisible] = useState(false)
   const [selectData, setSelectData] = useState({})
   useEffect(() => {
-    dispatch({type: 'milkyTea/getData'})
+    dispatch({type: 'milkyTea/getData', action: {limit: 10, offset: 0}})
   }, [])
   useEffect(() => {
     if (!categorys.length) {
@@ -48,6 +48,11 @@ const Products = ({dispatch, data, categorys}) => {
   function handleRowUpdate(row) {
     setSelectData(row)
     setVisible(true)
+  }
+  function onChange(page, pageSize) {
+    const offset = (page - 1) * pageSize
+    // 谁叫我前后台都开发呢，在公司根本不需要我计算offset....
+    dispatch({type: 'milkyTea/getData', action: {limit: pageSize, offset}})
   }
   const columns = [
     {
@@ -108,7 +113,7 @@ const Products = ({dispatch, data, categorys}) => {
     }
   ]
   return <>
-    <Table size={'small'} dataSource={data} columns={columns} pagination={false}/>
+    <Table size={'small'} dataSource={data} columns={columns} pagination={{onChange, total}} />
     <Button style={{marginTop: '10px'}} onClick={() => {setVisible(true)}}>添加商品</Button>
     <Modal visible={visible} maskClosable={false} destroyOnClose={true} footer={null} onCancel={()=>setVisible(false)}>
       <EditorPannel defaultData={selectData} categorys={categorys} addSubmit={addData} updateSubmit={updateData} />
@@ -118,6 +123,7 @@ const Products = ({dispatch, data, categorys}) => {
 export default connect(({milkyTea, category}) => {
   return {
     data: milkyTea.data,
+    total: milkyTea.count,
     categorys: category.data
   }
 })(Products)

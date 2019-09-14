@@ -1,6 +1,6 @@
 import router from 'umi/router';
 import {message} from 'antd'
-import {login, getVerCode, addUser} from '../api/user'
+import {login, getVerCode, addUser, getUser, deleteUser} from '../api/user'
 export default {
   namespace: 'user',
   state: {
@@ -9,6 +9,19 @@ export default {
     regVerCodeImg: '', // 注册时用的验证码
   },
   effects: {
+    *getData({action}, {call, put}) {
+      const res = yield call(getUser, action)
+      yield put({type: 'setData', data: res.data})
+    },
+    *deleteUser({action}, {call, put}) {
+      const res = yield call(deleteUser, action)
+      if (res) {
+        message.success('删除用户成功')
+        yield put({type: 'getData'})
+      } else {
+        message.error('删除用户失败')
+      }
+    },
     *login({action}, { call, put }) {
       const res = yield call(login, action);
       if (!res) {
@@ -42,6 +55,9 @@ export default {
     }
   },
   reducers: {
+    setData(state, {data}) {
+      return {...state, data}
+    },
     setVerCodeImg(state, {data}) {
       return {
         ...state,

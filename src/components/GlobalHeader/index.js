@@ -42,7 +42,7 @@ function GlobalHeader ({dispatch, user, notify, fetchingNotices, onNoticeClear})
         />
         <Dropdown overlay={menu}>
           <span className={`${styles.action} ${styles.account}`}>
-            <Avatar size="small" className={styles.avatar} src={user.avatar} />
+            <Avatar size="small" className={styles.avatar} src={user.avatar}  icon="user" />
             <span className={styles.name}>{user.name}</span>
           </span>
         </Dropdown>

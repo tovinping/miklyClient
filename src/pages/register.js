@@ -25,6 +25,11 @@ const Register = ({form, dispatch, regVerCodeImg}) => {
     dispatch({type: 'user/getRegVerCode', action: {verCodeId}})
   }, [])
   function verifyPhoneNumber(rule, value, callback) {
+    if (!value) {
+      // 解决两条验证规则同时显示
+      callback()
+      return;
+    }
     const reg = /^1[3456789]\d{9}$/
     if (reg.test(value)) {
       callback()
@@ -113,6 +118,16 @@ const Register = ({form, dispatch, regVerCodeImg}) => {
               validator: verifyPhoneNumber
             }],
         })(<Input addonBefore={'+86'} style={{ width: '100%' }} />)}
+      </Form.Item>
+      <Form.Item label="Name">
+        {getFieldDecorator('name', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input your name',
+            }
+          ],
+        })(<Input />)}
       </Form.Item>
       <Form.Item label="Captcha">
         <Row>
