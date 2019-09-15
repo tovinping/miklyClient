@@ -37,9 +37,9 @@ const Register = ({form, dispatch, regVerCodeImg}) => {
       callback('手鸡号码验证不队~没错!有错别字-_-')
     }
   }
-  // 有点变态:密码长度只能为6，不要问我为什么，个人项目就是这么任性~
+  // 有点变态:密码长度只能为8，不要问我为什么，个人项目就是这么任性~
   function verifyFirstPassword(rule, value, callback) {
-    const reg = /^(?=.*[0-9])(?=.*[a-zA-Z]).{6}$/;
+    const reg = /^(?=.*[0-9])(?=.*[a-zA-Z]).{8}$/;
     if (value && reg.test(value)) {
       callback()
     } else {

@@ -15,3 +15,9 @@ export function addUser(params) {
 export function deleteUser(params) {
   return post('/deleteUser', params)
 }
+export function getMailVerCode(params) {
+  return post('/getMailVerCode', params)
+}
+export function updateUser(params) {
+  return post('/updateUser', params)
+}

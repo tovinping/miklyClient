@@ -29,7 +29,7 @@ const CategoryForm = ({form, defaultData={}, addData, updateData}) => {
         })(<Input placeholder={'请输入名称'} />)}
       </Form.Item>
       <Form.Item >
-        <Button type="primary" htmlType="submit">
+        <Button type="primary">
           {defaultData.name ? '修改': '添加'}
         </Button>
       </Form.Item>

@@ -1,6 +1,6 @@
 import router from 'umi/router';
 import {message} from 'antd'
-import {login, getVerCode, addUser, getUser, deleteUser} from '../api/user'
+import {login, getVerCode, addUser, getUser, deleteUser, getMailVerCode, updateUser} from '../api/user'
 export default {
   namespace: 'user',
   state: {
@@ -52,7 +52,22 @@ export default {
           router.push('/login')
         }, 1000);
       }
-    }
+    },
+    *getMailVerCode({action}, {call, put}) {
+      const res = yield call(getMailVerCode, action)
+      if (res) {
+        message.success(res.data)
+      }
+    },
+    *updateUser({action}, {call, put}) {
+      const res = yield call(updateUser, action)
+      if (res) {
+        message.success('修改密码成功!')
+        setTimeout(() => {
+          router.push('/login')
+        }, 1000);
+      }
+    },
   },
   reducers: {
     setData(state, {data}) {

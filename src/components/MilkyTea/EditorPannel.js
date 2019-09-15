@@ -147,7 +147,7 @@ const MilkyTeaForm = ({form, defaultData, categorys, addSubmit, updateSubmit, })
         })(<EditorImgs imgList={imgs} uploaded={uploaded} />)}
       </Form.Item>
       <Form.Item >
-        <Button type="primary" htmlType="submit">
+        <Button type="primary">
           {defaultData.name? '修改': '添加'}
         </Button>
       </Form.Item>
