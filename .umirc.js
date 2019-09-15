@@ -1,5 +1,7 @@
 export default {
   history: 'browser',
+  publicPath: './',
+  base: '/milky',
   plugins: [
     ['umi-plugin-react', {
       antd: true,
